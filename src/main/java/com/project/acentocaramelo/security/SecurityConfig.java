@@ -1,13 +1,11 @@
 package com.project.acentocaramelo.security;
 
-import com.project.acentocaramelo.filters.CustomAuthenticationFilter;
 import com.project.acentocaramelo.filters.CustomAuthorizationFilter;
 import com.project.acentocaramelo.filters.CustomDSL;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -57,7 +55,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeHttpRequests()
-            .antMatchers("/api/login").permitAll()
+            .antMatchers("/api/login", "api/token/refresh/**").permitAll()
             .antMatchers(GET,"/api/user").hasAnyAuthority("ROLE_SUPER_ADMIN")
             .anyRequest().authenticated()
         .and()
