@@ -1,6 +1,7 @@
-package com.project.acentocaramelo.entities;
+package com.project.acentocaramelo.domain;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,12 +9,13 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
-import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Table(name="user")
 public class User {
     @Id
@@ -42,13 +44,10 @@ public class User {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
-    @Column(name = "dob")
     private Date dob;
 
-    @Column(name = "activated")
     private boolean activated;
 
-    @Column(name = "notifications")
     private boolean notifications;
 
     @Column(name = "created_time")
@@ -57,7 +56,12 @@ public class User {
     @Column(name = "updated_time")
     private Instant updatedTime;
 
-    @Column(name = "deleted")
     private boolean deleted;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_has_role",
+            joinColumns = @JoinColumn(name="user_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName="id"))
+    private Collection<Role> roles = new ArrayList<>();
 
 }
