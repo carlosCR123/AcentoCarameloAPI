@@ -1,10 +1,7 @@
 package com.project.acentocaramelo.domain;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -15,31 +12,37 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @RequiredArgsConstructor
 @Table(name="user")
 public class User {
+
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
+    @NonNull //lombok
     @Column(unique = true, nullable = false)
     private String username;
 
+    @NonNull //lombok
     @Email
     @Column(unique = true, nullable = false)
     private String email;
 
     @NotNull
+    @NonNull //lombok
     @Column(nullable = false, length = 30)
     private String password;
 
     @NotNull
+    @NonNull //lombok
     @Size(max = 50)
     @Column(name = "first_name", length = 50)
     private String firstName;
 
     @NotNull
+    @NonNull //lombok
     @Size(max = 50)
     @Column(name = "last_name", length = 50)
     private String lastName;
