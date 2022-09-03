@@ -28,10 +28,10 @@ public class AcentoCarameloApplication {
 //    @Bean
 //    CommandLineRunner run(UserService userService) {
 //        return args -> {
-//            userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
-//            userService.saveRole(new Role(null, "ROLE_ADMIN"));
-//            userService.saveRole(new Role(null, "ROLE_USER"));
-//
+////            userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
+////            userService.saveRole(new Role(null, "ROLE_ADMIN"));
+////            userService.saveRole(new Role(null, "ROLE_USER"));
+////
 //            userService.saveUser(new User("calvarado", "calvarado@gmail.com", "password", "Carlos", "Alvarado"));
 //            userService.saveUser(new User("karaya", "karaya@gmail.com", "password", "Karen", "Araya"));
 //

@@ -32,7 +32,7 @@ public class User {
 
     @NotNull
     @NonNull //lombok
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 60)
     private String password;
 
     @NotNull

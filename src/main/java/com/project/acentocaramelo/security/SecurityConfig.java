@@ -1,10 +1,13 @@
 package com.project.acentocaramelo.security;
 
 import com.project.acentocaramelo.filters.CustomAuthenticationFilter;
+import com.project.acentocaramelo.filters.CustomAuthorizationFilter;
+import com.project.acentocaramelo.filters.CustomDSL;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -15,8 +18,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.PostConstruct;
+
+import static org.springframework.http.HttpMethod.GET;
 
 /**
  * @author Carlos Alvarado Núñez
@@ -46,13 +52,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .csrf().disable()
+            .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeHttpRequests()
-            .anyRequest().permitAll()
+            .antMatchers("/api/login").permitAll()
+            .antMatchers(GET,"/api/user").hasAnyAuthority("ROLE_SUPER_ADMIN")
+            .anyRequest().authenticated()
         .and()
-            .addFilter(new CustomAuthenticationFilter(http.getSharedObject(AuthenticationManager.class)));
+            .apply(CustomDSL.getCustomDsl())
+        .and()
+            .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
