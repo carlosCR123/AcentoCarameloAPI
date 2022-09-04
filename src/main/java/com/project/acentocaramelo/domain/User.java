@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @RequiredArgsConstructor
@@ -66,5 +67,9 @@ public class User {
             joinColumns = @JoinColumn(name="user_id", referencedColumnName="id"),
             inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName="id"))
     private Collection<Role> roles = new ArrayList<>();
+
+    @OneToMany()
+    @JoinColumn(name = "User_id")
+    private List<UserNotification> userNotifications;
 
 }
